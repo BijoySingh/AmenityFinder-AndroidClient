@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <color name="transparent">#00000000</color>
+
+    <color name="primary_text">#DE000000</color>
+    <color name="secondary_text">#DA000000</color>
+    <color name="tertiary_text">#99000000</color>
+    <color name="hint_text">#65000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_hint">#DAFFFFFF</color>
+    <color name="showcase_background">#CC000000</color>
+
+    <color name="primary_dark_color">#1976D2</color>
+    <color name="primary_color">#1E88E5</color>
+    <color name="secondary_color">#64B5F6</color>
+
+    <color name="bookmark_tagged">#77000000</color>
+    <color name="upvotes">#88000000</color>
+
+    <color name="light_accent">#FF4081</color>
+    <color name="accent">#F50057</color>
+    <color name="dark_accent">#C51162</color>
+
+    <color name="separator">#0F000000</color>
+</resources>
