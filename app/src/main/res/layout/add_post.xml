@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/actionbar_gradient"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:padding="6dp"
+                android:src="@drawable/ic_add_white_36dp"
+                android:tint="@color/white_hint"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="16dp"
+                android:text="Add Post"
+                android:textColor="@color/white_hint"
+                android:textSize="18sp"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="DONE"
+                android:textColor="@color/white_hint"
+                android:textSize="18sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="16dp">
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:progressTint="@color/primary_color"
+                android:secondaryProgressTint="@color/primary_color"
+                android:foregroundTint="@color/primary_color"
+                android:indeterminateTint="@color/primary_color"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="3.45"
+                android:textColor="@color/primary_dark_color"
+                android:textSize="21sp"/>
+        </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:hint="Location"
+            android:padding="20dp"
+            android:textColor="@color/secondary_text"
+            android:textColorHint="@color/hint_text"
+            android:textSize="21sp"/>
+
+
+        <EditText
+            android:id="@+id/comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:gravity="top"
+            android:hint="Write your post here..."
+            android:minLines="6"
+            android:padding="20dp"
+            android:textColor="@color/secondary_text"
+            android:textColorHint="@color/hint_text"
+            android:textSize="21sp"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="top"
+                android:hint="Anonymous"
+                android:textColor="@color/secondary_text"
+                android:textSize="18sp"/>
+
+            <Switch
+                android:id="@+id/anonymous"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="240dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:background="@color/separator"/>
+
+        <TextView
+            android:id="@+id/sign_out"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:padding="24dp"
+            android:text="PUBLISH"
+            android:textAllCaps="true"
+            android:textColor="@color/hint_text"
+            android:textSize="18sp"/>
+
+    </LinearLayout>
+</ScrollView>

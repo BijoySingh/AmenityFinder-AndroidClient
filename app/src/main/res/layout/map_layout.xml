@@ -4,50 +4,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:scaleType="centerCrop"
+        android:src="@drawable/map_icon"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal">
-
-            <include
-                layout="@layout/amentity_item"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <include
-                layout="@layout/amentity_item"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-
-            <include
-                layout="@layout/amentity_item"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/actionbar_gradient"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:scaleType="centerCrop"
-            android:src="@drawable/map_icon"/>
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:alpha="0.75"
+            android:padding="4dp"
+            android:src="@drawable/ic_search_white_36dp"/>
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="16dp"
+            android:text="Find Near Me"
+            android:textColor="@color/white_hint"/>
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginEnd="12dp"
+            android:alpha="1"
+            android:padding="4dp"
+            android:src="@drawable/washroom"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        android:layout_margin="8dp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -56,9 +58,9 @@
             android:id="@+id/current_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:src="@drawable/ic_location_searching_white_36dp"
             app:borderWidth="0dp"
-            android:layout_margin="8dp"
             app:fabSize="mini"
             />
 
@@ -66,9 +68,9 @@
             android:id="@+id/add_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:src="@drawable/ic_add_white_36dp"
             app:borderWidth="0dp"
-            android:layout_margin="8dp"
             app:fabSize="normal"
             />
 

@@ -9,11 +9,11 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:padding="6dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:padding="8dp"
         android:src="@drawable/water"
-        android:tint="@color/white_hint"
+        android:tint="@color/primary_color"
         />
 
     <TextView
@@ -21,9 +21,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:maxWidth="64dp"
-        android:textSize="12dp"
+        android:maxWidth="72dp"
+        android:textSize="14dp"
         android:text="WATER"
-        android:textColor="@color/white_hint"/>
+        android:textColor="@color/primary_color"/>
 
 </LinearLayout>

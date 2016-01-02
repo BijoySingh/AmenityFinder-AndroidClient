@@ -8,7 +8,8 @@
     <color name="hint_text">#65000000</color>
     <color name="white">#FFFFFF</color>
     <color name="white_hint">#DAFFFFFF</color>
-    <color name="showcase_background">#CC000000</color>
+
+    <color name="current_location">#757575</color>
 
     <color name="primary_dark_color">#1976D2</color>
     <color name="primary_color">#1E88E5</color>
