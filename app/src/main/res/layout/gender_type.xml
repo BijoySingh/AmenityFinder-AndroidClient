@@ -12,8 +12,8 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:padding="8dp"
-        android:src="@drawable/water"
-        android:tint="@color/primary_color"
+        android:contentDescription="@string/desc_gender_type"
+        android:tint="@color/hint_text"
         />
 
     <TextView
@@ -22,8 +22,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:maxWidth="72dp"
-        android:textSize="14dp"
-        android:text="WATER"
-        android:textColor="@color/primary_color"/>
+        android:textSize="14sp"
+        android:textColor="@color/hint_text"/>
 
 </LinearLayout>

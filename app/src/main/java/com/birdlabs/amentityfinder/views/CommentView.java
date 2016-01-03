@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.birdlabs.amentityfinder.R;
+import com.birdlabs.amentityfinder.items.CommentItem;
 import com.birdlabs.amentityfinder.items.UserItem;
 
 /**
@@ -42,5 +43,15 @@ public class CommentView {
         like_icon = (ImageView) view.findViewById(R.id.like_icon);
         dislike_icon = (ImageView) view.findViewById(R.id.dislike_icon);
         location_picture = (ImageView) view.findViewById(R.id.location_picture);
+    }
+
+    public void set(CommentItem comment) {
+        this.comment.setText(comment.comment);
+        score.setText(comment.rating.toString());
+        author_name.setText(comment.author.name);
+        likes.setText(comment.likes.toString());
+        dislikes.setText(comment.dislikes.toString());
+        timestamp.setText(comment.created);
+        author_picture.setImageResource(R.drawable.ic_face_black_36dp);
     }
 }

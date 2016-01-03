@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 
 import com.birdlabs.amentityfinder.R;
+import com.birdlabs.amentityfinder.items.LocationItem;
 
 
 public class MapActivity extends ActionBarActivity {
@@ -24,7 +25,7 @@ public class MapActivity extends ActionBarActivity {
 
     public void setupFabs() {
         addLocation = (FloatingActionButton) findViewById(R.id.add_location);
-        addLocation.setBackgroundTintList(ColorStateList.valueOf(getApplicationContext().getResources().getColor(R.color.primary_dark_color)));
+        addLocation.setBackgroundTintList(ColorStateList.valueOf(getApplicationContext().getResources().getColor(R.color.accent)));
         addLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -35,14 +36,19 @@ public class MapActivity extends ActionBarActivity {
 
 
         currentLocation = (FloatingActionButton) findViewById(R.id.current_location);
-        currentLocation.setBackgroundTintList(ColorStateList.valueOf(getApplicationContext().getResources().getColor(R.color.primary_dark_color)));
+        currentLocation.setBackgroundTintList(ColorStateList.valueOf(getApplicationContext().getResources().getColor(R.color.accent)));
         currentLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), AddPostActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LocationActivity.class);
+                intent.putExtra(LocationActivity.LOCATION_ITEM, LocationItem.getPlaceholder());
                 startActivity(intent);
             }
         });
+    }
+
+    public void refreshMap() {
+        
     }
 
 }

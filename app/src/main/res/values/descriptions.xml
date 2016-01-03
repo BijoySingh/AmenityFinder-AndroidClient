@@ -4,5 +4,7 @@
     <string name="desc_location_picture">Picture from Location</string>
     <string name="desc_like">Useful Post</string>
     <string name="desc_dislike">Not a Useful Post</string>
+
+    <string name="desc_gender_type">Gender Type of the location</string>
     <string name="desc_"> </string>
 </resources>
