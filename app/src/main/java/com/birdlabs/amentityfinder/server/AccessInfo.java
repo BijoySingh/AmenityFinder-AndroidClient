@@ -23,14 +23,8 @@ public class AccessInfo extends AccessItem {
         public static final Integer POST_GET_ITEM = 8;
     }
 
-    public Activity activity;
-
     public AccessInfo(String url, String filename, Integer type, Boolean authenticated) {
         super(url, filename, type, authenticated);
     }
 
-    public AccessInfo setActivity(Activity activity) {
-        this.activity = activity;
-        return this;
-    }
 }

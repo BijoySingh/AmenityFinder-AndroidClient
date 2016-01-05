@@ -1,6 +1,7 @@
 package com.birdlabs.amentityfinder.server;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.birdlabs.amentityfinder.activity.LocationActivity;
@@ -30,21 +31,29 @@ public class Access extends AccessManager {
     }
 
     @Override
-    public void handleGetResponse(AccessItem accessItem, String response) {
-        final AccessInfo access = (AccessInfo) accessItem;
-        writeInFile(response, accessItem);
+    public void handleGetResponse(AccessItem access, String response) {
+        Log.d(Access.class.getSimpleName(), "handleGetResponse called");
+        writeInFile(response, access);
 
         if (access.activity != null) {
-            if (accessItem.type.equals(AccessInfo.AccessIds.LOCATION_GET)) {
-                ((MapActivity) access.activity).refreshMap();
-            } else if (accessItem.type.equals(AccessInfo.AccessIds.POST_GET)) {
+            if (access.type.equals(AccessInfo.AccessIds.LOCATION_GET_POSTS)) {
                 ((LocationActivity) access.activity).refreshList();
             }
         }
     }
 
     @Override
-    public void handleSendResponse(AccessItem accessItem, JSONObject jsonObject) {
+    public void handleSendResponse(AccessItem access, JSONObject jsonObject) {
+        Log.d(Access.class.getSimpleName(), "handleSendResponse called");
+        writeInFile(jsonObject.toString(), access);
+
+        if (access.activity != null) {
+            Log.d(Access.class.getSimpleName(), "activity is not null");
+            if (access.type.equals(AccessInfo.AccessIds.LOCATION_GET)) {
+                Log.d(Access.class.getSimpleName(), "type is location_get");
+                ((MapActivity) access.activity).refreshMap();
+            }
+        }
 
     }
 

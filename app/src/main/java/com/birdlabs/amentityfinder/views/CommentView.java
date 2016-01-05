@@ -6,7 +6,10 @@ import android.widget.TextView;
 
 import com.birdlabs.amentityfinder.R;
 import com.birdlabs.amentityfinder.items.CommentItem;
-import com.birdlabs.amentityfinder.items.UserItem;
+import com.birdlabs.basicproject.item.TimestampItem;
+import com.birdlabs.basicproject.util.TimestampManager;
+
+import java.util.Calendar;
 
 /**
  * The amenity view
@@ -23,11 +26,11 @@ public class CommentView {
     public TextView author_name;
     public ImageView author_picture;
 
-    public TextView likes;
-    public ImageView like_icon;
+    public TextView upvotes;
+    public ImageView upvote_icon;
 
-    public TextView dislikes;
-    public ImageView dislike_icon;
+    public TextView downvotes;
+    public ImageView downvote_icon;
 
 
     public CommentView(View v) {
@@ -35,13 +38,13 @@ public class CommentView {
         comment = (TextView) view.findViewById(R.id.comment);
         score = (TextView) view.findViewById(R.id.score);
         author_name = (TextView) view.findViewById(R.id.author_name);
-        likes = (TextView) view.findViewById(R.id.likes);
-        dislikes = (TextView) view.findViewById(R.id.dislikes);
+        upvotes = (TextView) view.findViewById(R.id.upvotes);
+        downvotes = (TextView) view.findViewById(R.id.downvotes);
         timestamp = (TextView) view.findViewById(R.id.timestamp);
 
         author_picture = (ImageView) view.findViewById(R.id.author_picture);
-        like_icon = (ImageView) view.findViewById(R.id.like_icon);
-        dislike_icon = (ImageView) view.findViewById(R.id.dislike_icon);
+        upvote_icon = (ImageView) view.findViewById(R.id.like_icon);
+        downvote_icon = (ImageView) view.findViewById(R.id.dislike_icon);
         location_picture = (ImageView) view.findViewById(R.id.location_picture);
     }
 
@@ -49,9 +52,14 @@ public class CommentView {
         this.comment.setText(comment.comment);
         score.setText(comment.rating.toString());
         author_name.setText(comment.author.name);
-        likes.setText(comment.likes.toString());
-        dislikes.setText(comment.dislikes.toString());
-        timestamp.setText(comment.created);
+        upvotes.setText(comment.upvotes.toString());
+        downvotes.setText(comment.downvotes.toString());
+
         author_picture.setImageResource(R.drawable.ic_face_black_36dp);
+
+        TimestampItem item = TimestampManager.getTimestampItem(comment.created);
+        timestamp.setText(item.getTimeString(true));
+
+
     }
 }

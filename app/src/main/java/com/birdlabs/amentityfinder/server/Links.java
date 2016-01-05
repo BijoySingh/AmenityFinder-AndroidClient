@@ -6,11 +6,16 @@ package com.birdlabs.amentityfinder.server;
  */
 public class Links {
     public static String getHomeUrl() {
-        return "https://af.thecodershub.com/";
+        return "http://192.168.0.102:8000/";
+        //return "https://af.thecodershub.com/";
     }
 
     public static String getLocation(Integer location) {
         return getHomeUrl() + "api/location/" + location + "/";
+    }
+
+    public static String getLocations() {
+        return getHomeUrl() + "api/location/search_by_bbox/";
     }
 
     public static String addLocation() {

@@ -1,5 +1,7 @@
 package com.birdlabs.amentityfinder.items;
 
+import com.birdlabs.basicproject.util.TimestampManager;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,21 +15,21 @@ public class CommentItem {
     public Boolean anonymous;
     public UserItem author;
     public Double rating;
-    public Integer likes;
-    public Integer dislikes;
+    public Integer upvotes;
+    public Integer downvotes;
     public String created;
 
     public CommentItem(String comment,
                        UserItem author,
                        Double rating,
-                       Integer likes,
-                       Integer dislikes,
+                       Integer upvotes,
+                       Integer downvotes,
                        String created) {
         this.comment = comment;
         this.author = author;
         this.rating = rating;
-        this.likes = likes;
-        this.dislikes = dislikes;
+        this.upvotes = upvotes;
+        this.downvotes = downvotes;
         this.created = created;
     }
 
@@ -37,8 +39,8 @@ public class CommentItem {
         rating = json.getDouble("rating");
         anonymous = json.getBoolean("is_anonymous");
         author = new UserItem(json.getString("user"));
-        likes = json.getInt("upvotes_count");
-        dislikes = json.getInt("downvotes_count");
+        upvotes = json.getInt("upvotes");
+        downvotes = json.getInt("downvotes");
         created = json.getString("created");
     }
 

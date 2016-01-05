@@ -3,6 +3,7 @@ package com.birdlabs.amentityfinder.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.birdlabs.amentityfinder.R;
@@ -23,6 +25,7 @@ import com.birdlabs.amentityfinder.server.Filenames;
 import com.birdlabs.amentityfinder.server.Links;
 import com.birdlabs.basicproject.server.AccessItem;
 import com.birdlabs.basicproject.util.FileManager;
+import com.facebook.appevents.AppEventsLogger;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,6 +45,7 @@ public class LocationActivity extends AppCompatActivity {
     Context context;
     LocationItem locationItem;
     FloatingActionButton addPost;
+    FloatingActionButton getDirections;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     CommentsAdapter adapter;
@@ -55,10 +59,11 @@ public class LocationActivity extends AppCompatActivity {
 
         locationItem = (LocationItem) getIntent().getSerializableExtra(LOCATION_ITEM);
 
-        refreshList();
         setupFabs();
-        setupPanel();
         setupRecyclerView();
+        setupPanel();
+
+        refreshList();
     }
 
     public void setupRecyclerView() {
@@ -77,18 +82,21 @@ public class LocationActivity extends AppCompatActivity {
         TextView location = (TextView) findViewById(R.id.latitude_longitude);
         ImageView gender = (ImageView) findViewById(R.id.gender);
         TextView score = (TextView) findViewById(R.id.score);
+        RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
 
         name.setText(locationItem.name);
         gender.setImageResource(locationItem.getGenderDrawable());
         score.setText(locationItem.rating.toString());
         location.setText(locationItem.getLocation());
+        ratingBar.setRating(locationItem.rating.floatValue());
     }
 
     public void refreshList() {
         comments = new ArrayList<>();
         try {
             String response = FileManager.read(context, Filenames.getLocationPosts(locationItem.id));
-            JSONArray array = new JSONArray(response);
+            JSONObject page = new JSONObject(response);
+            JSONArray array = page.getJSONArray("results");
             for (int position = 0; position < array.length(); position++) {
                 JSONObject json = array.getJSONObject(position);
                 CommentItem commentItem = new CommentItem(json);
@@ -103,10 +111,10 @@ public class LocationActivity extends AppCompatActivity {
 
     public void requestData() {
         Access access = new Access(context);
-        access.get(new AccessItem(Links.getLocationPosts(locationItem.id),
+        access.get(new AccessInfo(Links.getLocationPosts(locationItem.id),
                 Filenames.getLocationPosts(locationItem.id),
                 AccessInfo.AccessIds.LOCATION_GET_POSTS,
-                false));
+                false).setActivity(this));
     }
 
     public List<CommentItem> getValues() {
@@ -127,11 +135,29 @@ public class LocationActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        getDirections = (FloatingActionButton) findViewById(R.id.get_directions);
+        getDirections.setBackgroundTintList(ColorStateList.valueOf(getApplicationContext().getResources().getColor(R.color.accent)));
+        getDirections.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                        Uri.parse("http://maps.google.com/maps?daddr=" + locationItem.latitude + "," + locationItem.longitude));
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         requestData();
+        AppEventsLogger.activateApp(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AppEventsLogger.deactivateApp(this);
     }
 }

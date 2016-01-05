@@ -16,6 +16,7 @@ import com.birdlabs.amentityfinder.items.LocationItem;
 import com.birdlabs.amentityfinder.server.Access;
 import com.birdlabs.amentityfinder.server.AccessInfo;
 import com.birdlabs.amentityfinder.server.Links;
+import com.facebook.appevents.AppEventsLogger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -74,6 +75,18 @@ public class AddPostActivity extends AppCompatActivity {
         Access access = new Access(this);
         access.send(new AccessInfo(Links.getPostLink(), null, AccessInfo.AccessIds.POST_POST, true)
                 .setMethod(Request.Method.POST), map);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AppEventsLogger.activateApp(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AppEventsLogger.deactivateApp(this);
     }
 
 }

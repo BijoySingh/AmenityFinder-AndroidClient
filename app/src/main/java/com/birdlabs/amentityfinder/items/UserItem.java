@@ -23,6 +23,7 @@ public class UserItem implements Serializable {
 
     public UserItem(String jsonStr) throws JSONException {
         if (jsonStr == null || jsonStr.contentEquals("null")) {
+            name = "Anonymous";
             return;
         }
 
@@ -32,6 +33,7 @@ public class UserItem implements Serializable {
         name = json.getString("first_name") + " " + json.getString("last_name");
         picture = json.getString("picture");
     }
+
     public static UserItem getPlaceholder() {
         return new UserItem(1, "bijoysingh693@gmail.com", "Bijoy Singh Kochar");
     }

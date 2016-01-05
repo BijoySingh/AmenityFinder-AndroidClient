@@ -5,17 +5,36 @@
     android:layout_height="match_parent">
 
 
-    <ImageView
+    <!--<ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/map_icon"/>
+    -->
 
-    <include
-        layout="@layout/toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            tools:context=".MapsActivity"/>
+    </LinearLayout>
+
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,11 +45,11 @@
 
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/current_location"
+            android:id="@+id/closest_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:src="@drawable/ic_location_searching_white_36dp"
+            android:src="@drawable/ic_directions_run_white_36dp"
             app:borderWidth="0dp"
             app:fabSize="mini"
             />

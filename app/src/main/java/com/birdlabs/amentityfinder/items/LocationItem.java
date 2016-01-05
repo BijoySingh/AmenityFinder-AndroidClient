@@ -6,6 +6,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * the location item
@@ -51,10 +54,11 @@ public class LocationItem implements Serializable {
     }
 
     public String getLocation() {
-        return latitude + ", " + longitude;
+        return latitude + "\u00b0, " + longitude + "\u00b0";
     }
 
-    public Integer getGenderDrawable() {
+
+    public static Integer getGenderDrawable(Boolean male, Boolean female) {
         if (male && female) {
             return R.drawable.washroom;
         } else if (male) {
@@ -64,6 +68,28 @@ public class LocationItem implements Serializable {
         } else {
             return R.drawable.washroom;
         }
+    }
+
+    public Integer getGenderDrawable() {
+        return getGenderDrawable(male, female);
+    }
+
+    public static String getFreeString(Boolean isFree) {
+        if (isFree) {
+            return "Free";
+        }
+        return "Paid";
+    }
+
+    public String getSnippet() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("male", male);
+        map.put("female", female);
+        map.put("rating", rating);
+        map.put("is_free", isFree);
+
+        return new JSONObject(map).toString();
     }
 
     public static LocationItem getPlaceholder() {

@@ -62,7 +62,7 @@
             android:hint="Location"
             android:padding="16dp"
             android:enabled="false"
-            android:textColor="@color/secondary_text"
+            android:textColor="@color/hint_text"
             android:textColorHint="@color/hint_text"
             android:textSize="16sp"/>
 
