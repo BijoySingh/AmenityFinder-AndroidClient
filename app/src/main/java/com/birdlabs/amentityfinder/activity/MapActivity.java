@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -14,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.birdlabs.amentityfinder.R;
 import com.birdlabs.amentityfinder.items.LocationItem;
@@ -21,10 +21,12 @@ import com.birdlabs.amentityfinder.server.Access;
 import com.birdlabs.amentityfinder.server.AccessInfo;
 import com.birdlabs.amentityfinder.server.Filenames;
 import com.birdlabs.amentityfinder.server.Links;
+import com.birdlabs.amentityfinder.util.Preferences;
 import com.birdlabs.amentityfinder.views.InfoAdapter;
 import com.birdlabs.basicproject.Functions;
 import com.birdlabs.basicproject.util.FileManager;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -96,10 +98,35 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
                     Intent intent = new Intent(context, LocationActivity.class);
                     intent.putExtra(LocationActivity.LOCATION_ITEM, closestItem);
                     startActivity(intent);
+                } else if (currentLocation == null) {
+                    Functions.makeToast(context, "Could not locate the user, please try again.");
                 } else {
-                    Functions.makeToast(context, "Could not locate the user, please try again");
+                    Functions.makeToast(context, "No locations near your locality. Zoom out to find more areas.");
                     Log.e(MapActivity.class.getSimpleName(), "CLOSEST ITEM null");
                 }
+            }
+        });
+
+        TextView logout = (TextView) findViewById(R.id.logout);
+
+        final Preferences preferences = new Preferences(context);
+        if (preferences.load(Preferences.Keys.FB_LOGIN, false) && preferences.load(Preferences.Keys.FB_LOGIN, false)) {
+            logout.setText("LOGOUT");
+        } else {
+            logout.setText("LOGIN");
+        }
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                preferences.save(Preferences.Keys.FB_LOGIN, false);
+                preferences.save(Preferences.Keys.SERVER_LOGIN, false);
+                preferences.save(Preferences.Keys.AUTH_TOKEN, "");
+                LoginManager.getInstance().logOut();
+
+                Intent intent = new Intent(context, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -141,9 +168,20 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
             for (int position = 0; position < array.length(); position++) {
                 JSONObject json = array.getJSONObject(position);
                 LocationItem item = new LocationItem(json);
-                if (!existingLocations.contains(item.id)) {
+
+                int matchPosition = 0;
+                for (LocationItem existingItem : locations) {
+                    if (item.id == existingItem.id) {
+                        break;
+                    }
+                    matchPosition += 1;
+                }
+
+                if (matchPosition == locations.size()) {
                     locations.add(item);
                     existingLocations.add(item.id);
+                } else {
+                    locations.set(position, item);
                 }
             }
         } catch (JSONException json) {
@@ -215,24 +253,39 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             map.setMyLocationEnabled(true);
+            Location location = getLastKnownLocation();
+            if (location != null) {
+                double lat = location.getLatitude();
+                double lng = location.getLongitude();
+                currentLocation = new LatLng(lat, lng);
 
-            LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
-            String provider = lm.getBestProvider(new Criteria(), true);
-
-            if (provider == null) {
-                return;
+                Log.d(MapActivity.class.getSimpleName(), currentLocation.toString());
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
             }
-
-            Location location = lm.getLastKnownLocation(provider);
-            double lat= location.getLatitude();
-            double lng = location.getLongitude();
-            currentLocation = new LatLng(lat, lng);
-
-            Log.d(MapActivity.class.getSimpleName(), currentLocation.toString());
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 16));
         }
     }
 
+    private Location getLastKnownLocation() {
+        Location bestLocation = null;
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            LocationManager locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+            List<String> providers = locationManager.getProviders(true);
+
+            for (String provider : providers) {
+                Location l = locationManager.getLastKnownLocation(provider);
+                if (l == null) {
+                    continue;
+                }
+
+                if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                    bestLocation = l;
+                }
+            }
+        }
+        return bestLocation;
+    }
 
     @Override
     protected void onResume() {

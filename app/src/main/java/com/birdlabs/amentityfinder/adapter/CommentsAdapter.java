@@ -7,9 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.birdlabs.amentityfinder.R;
-import com.birdlabs.amentityfinder.activity.LocationActivity;
+import com.birdlabs.amentityfinder.activity.CommentsActivity;
 import com.birdlabs.amentityfinder.items.CommentItem;
+import com.birdlabs.amentityfinder.server.Access;
+import com.birdlabs.amentityfinder.server.AccessInfo;
+import com.birdlabs.amentityfinder.server.Links;
 import com.birdlabs.amentityfinder.views.CommentRVHolder;
+import com.birdlabs.basicproject.Functions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.imageaware.ImageAware;
+import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
+
+import java.util.HashMap;
 
 /**
  * The recycler view adapter for list of content
@@ -18,12 +27,16 @@ import com.birdlabs.amentityfinder.views.CommentRVHolder;
 public class CommentsAdapter extends RecyclerView.Adapter<CommentRVHolder> {
 
     private Context context;
-    private LocationActivity activity;
+    private CommentsActivity activity;
+    private Access access;
+    private ImageLoader imageLoader;
 
     public CommentsAdapter(Context context,
-                              LocationActivity activity) {
+                           CommentsActivity activity) {
         this.context = context;
         this.activity = activity;
+        access = new Access(context);
+        imageLoader = Functions.getImageLoader(context);
     }
 
     @Override
@@ -38,6 +51,27 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentRVHolder> {
 
         final CommentItem data = activity.getValues().get(position);
         holder.view.set(data);
+        holder.view.downvote_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                access.send(new AccessInfo(Links.getPostDownvote(data.id),
+                                null, AccessInfo.AccessIds.POST_DOWNVOTE, true).setActivity(activity),
+                        new HashMap<String, Object>());
+            }
+        });
+        holder.view.upvote_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                access.send(new AccessInfo(Links.getPostUpvote(data.id),
+                                null, AccessInfo.AccessIds.POST_UPVOTE, true).setActivity(activity),
+                        new HashMap<String, Object>());
+            }
+        });
+
+        if (!data.anonymous && !data.author.picture.isEmpty() && !data.author.picture.contentEquals("null")) {
+            ImageAware faceImageAware = new ImageViewAware(holder.view.author_picture, false);
+            imageLoader.displayImage(data.author.picture, faceImageAware);
+        }
     }
 
     @Override

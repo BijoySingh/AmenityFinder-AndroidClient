@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Amenity Finder</string>
-
+    <string name="app_name">Amfi</string>
+    <string name="app_nick_name">amfi</string>
     <string name="helpful">Helpful?</string>
 </resources>

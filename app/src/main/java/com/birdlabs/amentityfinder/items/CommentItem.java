@@ -52,4 +52,23 @@ public class CommentItem {
                 " enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.",
                 UserItem.getPlaceholder(), 3.5, 3, 0, "1 January, 2016");
     }
+
+
+
+    public String getHelpfulString() {
+        if (upvotes == 0 && downvotes == 0) {
+            return "Be the first one to rate this";
+        } else if (upvotes >= downvotes) {
+            if (upvotes == 1) {
+                return upvotes + " person found this relevant";
+            }
+            return upvotes + " people found this relevant";
+        } else if (upvotes < downvotes) {
+            if (downvotes == 1) {
+                return downvotes + " person found this not relevant";
+            }
+            return downvotes + " people found this not relevant";
+        }
+        return "";
+    }
 }

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RatingBar;
@@ -12,11 +13,16 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.birdlabs.amentityfinder.R;
+import com.birdlabs.amentityfinder.items.CommentItem;
 import com.birdlabs.amentityfinder.items.LocationItem;
 import com.birdlabs.amentityfinder.server.Access;
 import com.birdlabs.amentityfinder.server.AccessInfo;
 import com.birdlabs.amentityfinder.server.Links;
+import com.birdlabs.basicproject.Functions;
 import com.facebook.appevents.AppEventsLogger;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +37,10 @@ public class AddPostActivity extends AppCompatActivity {
     Switch anonymous;
     RatingBar ratingBar;
     Context context;
+    ProgressDialog progressDialog;
+    Boolean olderLoaded;
+    Integer method;
+    String link;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +55,9 @@ public class AddPostActivity extends AppCompatActivity {
         comment = (EditText) findViewById(R.id.comment);
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
         anonymous = (Switch) findViewById(R.id.anonymous);
+        olderLoaded = false;
+        method = Request.Method.POST;
+        link = Links.getPostLink();
         setupCreateClick();
     }
 
@@ -53,7 +66,7 @@ public class AddPostActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sendData();
-                ProgressDialog progressDialog = ProgressDialog.show(context,
+                progressDialog = ProgressDialog.show(context,
                         "Adding Post", "Please Wait...", true);
                 progressDialog.setCancelable(true);
             }
@@ -73,14 +86,60 @@ public class AddPostActivity extends AppCompatActivity {
         map.put("is_anonymous", anonymous.isChecked());
 
         Access access = new Access(this);
-        access.send(new AccessInfo(Links.getPostLink(), null, AccessInfo.AccessIds.POST_POST, true)
-                .setMethod(Request.Method.POST), map);
+        access.send(new AccessInfo(link, null, AccessInfo.AccessIds.POST_POST, true)
+                .setActivity(this)
+                .setMethod(method), map);
     }
+
+    public void handleResponse() {
+        progressDialog.dismiss();
+        finish();
+    }
+
+    public void requestExistingPost() {
+        progressDialog = ProgressDialog.show(context,
+                "Loading Post", "Please Wait...", true);
+        progressDialog.setCancelable(true);
+
+        Access access = new Access(this);
+        access.get(new AccessInfo(Links.getUsersPost(locationItem.id),
+                null, AccessInfo.AccessIds.LOCATION_GET_USER_POST, true)
+                .setActivity(this));
+    }
+
+    public void handleResponse(String response) {
+        Log.d(Access.class.getSimpleName(), response);
+
+        olderLoaded = true;
+        progressDialog.dismiss();
+        try {
+            JSONObject json = new JSONObject(response);
+            if (json.getBoolean("success")) {
+                CommentItem item = new CommentItem(json.getJSONObject("result"));
+                comment.setText(item.comment);
+                anonymous.setChecked(item.anonymous);
+                ratingBar.setRating(item.rating.floatValue());
+                method = Request.Method.PUT;
+                link = Links.getPostLink(item.id);
+            }
+        } catch (JSONException exception) {
+            Log.e(AddPostActivity.class.getSimpleName(), exception.getMessage(), exception);
+        }
+    }
+
+    public void handleErrorMessage() {
+        progressDialog.dismiss();
+        Functions.makeToast(context, "Something went wrong, please confirm network connection");
+    }
+
 
     @Override
     protected void onResume() {
         super.onResume();
         AppEventsLogger.activateApp(this);
+        if (!olderLoaded) {
+            requestExistingPost();
+        }
     }
 
     @Override

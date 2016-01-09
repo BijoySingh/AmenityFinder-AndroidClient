@@ -59,7 +59,5 @@ public class CommentView {
 
         TimestampItem item = TimestampManager.getTimestampItem(comment.created);
         timestamp.setText(item.getTimeString(true));
-
-
     }
 }

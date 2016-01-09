@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.location.Address;
@@ -24,10 +25,12 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.birdlabs.amentityfinder.R;
+import com.birdlabs.amentityfinder.items.LocationItem;
 import com.birdlabs.amentityfinder.server.Access;
 import com.birdlabs.amentityfinder.server.AccessInfo;
 import com.birdlabs.amentityfinder.server.Links;
 import com.birdlabs.amentityfinder.views.GenderView;
+import com.birdlabs.basicproject.Functions;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -35,6 +38,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -165,7 +171,26 @@ public class AddLocationActivity extends AppCompatActivity implements OnMapReady
 
         Access access = new Access(this);
         access.send(new AccessInfo(Links.addLocation(), null, AccessInfo.AccessIds.LOCATION_POST, true)
+                .setActivity(this)
                 .setMethod(Request.Method.POST), map);
+    }
+
+    public void handleResponse(JSONObject json) {
+        try {
+            progressDialog.dismiss();
+            Intent intent = new Intent(context, LocationActivity.class);
+            intent.putExtra(LocationActivity.LOCATION_ITEM, new LocationItem(json));
+            startActivity(intent);
+            finish();
+        } catch (JSONException exception) {
+            progressDialog.dismiss();
+            Functions.makeToast(context, "Something went wrong!");
+        }
+    }
+
+    public void handleErrorMessage() {
+        progressDialog.dismiss();
+        Functions.makeToast(context, "Something went wrong, please confirm network connection");
     }
 
     public void setupWashroomTypes() {
@@ -277,7 +302,7 @@ public class AddLocationActivity extends AppCompatActivity implements OnMapReady
         markerOptions.title(geoDecoder);
         map.clear();
         if (zoom) {
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
         } else {
             map.animateCamera(CameraUpdateFactory.newLatLng(latLng));
         }

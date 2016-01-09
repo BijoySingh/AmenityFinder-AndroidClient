@@ -12,6 +12,11 @@ public class Filenames {
         return "location_posts_" + locationId + ".txt";
     }
 
+
+    public static String getLocationPhotos(Integer locationId) {
+        return "location_photos_" + locationId + ".txt";
+    }
+
     public static String getLocations() {
         return "locations.txt";
     }

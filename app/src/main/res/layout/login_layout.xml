@@ -20,12 +20,40 @@
             android:layout_height="wrap_content"
             />
 
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/login_button"
+        <View
+            android:layout_width="160dp"
+            android:layout_height="2dp"
+            android:background="@color/white_hint"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:id="@+id/login_fb_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"/>
+            android:background="@drawable/com_facebook_button_background"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:layout_marginTop="12dp">
 
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/com_facebook_button_icon"/>
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="1dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Facebook"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -34,9 +62,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:alpha="0.75"
+        android:background="?attr/selectableItemBackground"
         android:gravity="center"
         android:orientation="horizontal"
-        android:background="?attr/selectableItemBackground"
         android:padding="8dp">
 
         <TextView

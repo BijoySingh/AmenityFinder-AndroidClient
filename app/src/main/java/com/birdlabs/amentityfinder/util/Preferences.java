@@ -12,7 +12,8 @@ public class Preferences extends PreferenceManager {
 
     public class Keys {
         public static final String FB_LOGIN = "FB_LOGIN";
-        public static final String FB_USER_ID = "FB_USER_ID";
+        public static final String SERVER_LOGIN = "SERVER_LOGIN";
+        public static final String AUTH_TOKEN = "AUTH_TOKEN";
     }
 
     public Preferences(Context context) {

@@ -37,4 +37,5 @@ public class UserItem implements Serializable {
     public static UserItem getPlaceholder() {
         return new UserItem(1, "bijoysingh693@gmail.com", "Bijoy Singh Kochar");
     }
+
 }

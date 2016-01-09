@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -21,7 +23,8 @@
 
 
         <activity
-            android:name=".activity.LoginActivity">
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -29,20 +32,46 @@
         </activity>
         <activity
             android:name=".activity.MapActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateUnchanged">
         </activity>
         <activity
             android:name=".activity.AddLocationActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateUnchanged">
         </activity>
         <activity
             android:name=".activity.AddPostActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateUnchanged">
+        </activity>
+        <activity
+            android:name=".activity.CommentsActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateUnchanged">
         </activity>
         <activity
             android:name=".activity.LocationActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateUnchanged">
         </activity>
+        <activity
+            android:name=".activity.AddPhotoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateUnchanged">
+        </activity>
+        <activity
+            android:name=".activity.GalleryActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateUnchanged">
+        </activity>
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
     </application>
 
 </manifest>
