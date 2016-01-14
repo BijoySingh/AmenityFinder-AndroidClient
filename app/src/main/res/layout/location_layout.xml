@@ -120,11 +120,28 @@
                         android:id="@+id/is_free"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white_hint"
                         android:textAllCaps="true"
+                        android:textColor="@color/white_hint"
                         android:textSize="16sp"/>
                 </LinearLayout>
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/too_much_flags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:background="@color/accent"
+                android:visibility="gone"
+                android:padding="8dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Lot of people have flagged this washroom."
+                    android:textColor="@color/white"
+                    android:textStyle="bold"/>
             </LinearLayout>
 
             <android.support.v7.widget.CardView
@@ -181,15 +198,17 @@
                     android:id="@+id/inappropriate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:gravity="center"
+                    android:orientation="horizontal"
                     android:padding="16dp">
+
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="28dp"
-                        android:src="@drawable/ic_flag_white_24dp"
                         android:padding="4dp"
+                        android:src="@drawable/ic_flag_white_24dp"
                         android:tint="@color/hint_text"/>
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -213,49 +232,63 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:padding="8dp"
         android:layout_margin="8dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/edit_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_toLeftOf="@+id/get_directions"
+            android:src="@drawable/ic_edit_white_36dp"
+            app:borderWidth="0dp"
+            app:elevation="0dp"
+            app:fabSize="mini"
+            />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/get_directions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/add_photo"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_toLeftOf="@+id/add_photo"
             android:src="@drawable/ic_directions_white_36dp"
             app:borderWidth="0dp"
-            app:fabSize="mini"
             app:elevation="0dp"
+            app:fabSize="mini"
             />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/add_post"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:src="@drawable/ic_add_white_36dp"
             app:borderWidth="0dp"
-            app:fabSize="normal"
             app:elevation="0dp"
+            app:fabSize="normal"
             />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/add_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/add_post"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_toLeftOf="@+id/add_post"
             android:src="@drawable/ic_photo_camera_white_24dp"
             app:borderWidth="0dp"
-            app:fabSize="mini"
             app:elevation="0dp"
+            app:fabSize="mini"
             />
 
     </RelativeLayout>

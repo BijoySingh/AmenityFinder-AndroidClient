@@ -20,14 +20,11 @@ import com.birdlabs.amentityfinder.server.AccessInfo;
 import com.birdlabs.amentityfinder.server.Links;
 import com.birdlabs.amentityfinder.views.CommentSummaryView;
 import com.birdlabs.basicproject.Functions;
-import com.birdlabs.basicproject.util.FileManager;
-import com.facebook.appevents.AppEventsLogger;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.imageaware.ImageAware;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * actity displaying the locations
@@ -37,6 +34,7 @@ public class LocationActivity extends LocationViewActivityBase {
 
     FloatingActionButton addPost;
     FloatingActionButton addPhoto;
+    FloatingActionButton editLocation;
     FloatingActionButton getDirections;
     LinearLayout commentLayout;
     ImageView locationImage;
@@ -44,7 +42,7 @@ public class LocationActivity extends LocationViewActivityBase {
     View reviews;
     ImageLoader imageLoader;
     View flagInappropriate;
-
+    View tooMuchFlags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +108,10 @@ public class LocationActivity extends LocationViewActivityBase {
                         , new HashMap<String, Object>());
             }
         });
+        tooMuchFlags = findViewById(R.id.too_much_flags);
+        if (locationItem.flags > 10) {
+            tooMuchFlags.setVisibility(View.VISIBLE);
+        }
     }
 
     public void setupFabs() {
@@ -142,6 +144,17 @@ public class LocationActivity extends LocationViewActivityBase {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), AddPhotoActivity.class);
                 intent.putExtra(AddPostActivity.LOCATION_ITEM, locationItem);
+                startActivity(intent);
+            }
+        });
+
+        editLocation = (FloatingActionButton) findViewById(R.id.edit_location);
+        editLocation.setBackgroundTintList(ColorStateList.valueOf(getApplicationContext().getResources().getColor(R.color.accent)));
+        editLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AddLocationActivity.class);
+                intent.putExtra(AddLocationActivity.LOCATION_ITEM, locationItem);
                 startActivity(intent);
             }
         });

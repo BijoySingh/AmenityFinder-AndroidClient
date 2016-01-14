@@ -27,6 +27,8 @@ public class AccessInfo extends AccessItem {
 
         public static final Integer FB_LOGIN = 11;
 
+        public static final Integer PHOTO_DELETE = 12;
+
     }
 
     public AccessInfo(String url, String filename, Integer type, Boolean authenticated) {

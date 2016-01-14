@@ -80,7 +80,7 @@ public class CommentSummaryView extends LinearLayout {
     public void set(CommentItem comment) {
         this.comment.setText(comment.comment);
         score.setText(comment.rating.toString());
-        author_name.setText(comment.author.name);
+        author_name.setText(comment.getDisplayName());
         useful.setText(comment.getHelpfulString());
         TimestampItem item = TimestampManager.getTimestampItem(comment.created);
         timestamp.setText(item.getTimeString(true));

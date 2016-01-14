@@ -23,6 +23,7 @@ public class PhotoViewHolder extends RecyclerView.ViewHolder {
 
     public TextView author_name;
     public ImageView author_picture;
+    public ImageView delete_photo;
 
     public PhotoViewHolder(View v) {
         super(v);
@@ -32,10 +33,11 @@ public class PhotoViewHolder extends RecyclerView.ViewHolder {
 
         author_picture = (ImageView) view.findViewById(R.id.author_picture);
         location_picture = (ImageView) view.findViewById(R.id.location_picture);
+        delete_photo  = (ImageView) view.findViewById(R.id.delete_image);
     }
 
     public void set(PhotoItem photo) {
-        author_name.setText(photo.author.name);
+        author_name.setText(photo.getDisplayName());
         author_picture.setImageResource(R.drawable.ic_face_black_36dp);
 
         TimestampItem item = TimestampManager.getTimestampItem(photo.created);

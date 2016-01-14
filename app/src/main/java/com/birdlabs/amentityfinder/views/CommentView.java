@@ -51,7 +51,7 @@ public class CommentView {
     public void set(CommentItem comment) {
         this.comment.setText(comment.comment);
         score.setText(comment.rating.toString());
-        author_name.setText(comment.author.name);
+        author_name.setText(comment.getDisplayName());
         upvotes.setText(comment.upvotes.toString());
         downvotes.setText(comment.downvotes.toString());
 

@@ -74,6 +74,11 @@ public class AddLocationActivity extends AppCompatActivity implements OnMapReady
     TextView locationName;
     FloatingActionButton nextState;
 
+
+    Boolean updateMode;
+    LocationItem locationItem;
+    public static final String LOCATION_ITEM = "LOCATION_ITEM";
+
     Integer mode = 0;
 
     @Override
@@ -96,6 +101,16 @@ public class AddLocationActivity extends AppCompatActivity implements OnMapReady
 
         nextState = (FloatingActionButton) findViewById(R.id.next_state);
         nextState.setBackgroundTintList(ColorStateList.valueOf(getApplicationContext().getResources().getColor(R.color.accent)));
+
+        locationItem = (LocationItem) getIntent().getSerializableExtra(LOCATION_ITEM);
+        if (locationItem == null) {
+            updateMode = false;
+        } else {
+            updateMode = true;
+            location.setText(locationItem.name);
+            locationName.setText(locationItem.name);
+            paid.setChecked(locationItem.isFree);
+        }
 
         setupWashroomTypes();
         setupCreateClick();
@@ -170,9 +185,16 @@ public class AddLocationActivity extends AppCompatActivity implements OnMapReady
         map.put("female", hasFemale);
 
         Access access = new Access(this);
-        access.send(new AccessInfo(Links.addLocation(), null, AccessInfo.AccessIds.LOCATION_POST, true)
+        String link = Links.addLocation();
+        Integer mode = Request.Method.POST;
+        if (updateMode) {
+            link = Links.getLocation(locationItem.id);
+            mode = Request.Method.PUT;
+        }
+
+        access.send(new AccessInfo(link, null, AccessInfo.AccessIds.LOCATION_POST, true)
                 .setActivity(this)
-                .setMethod(Request.Method.POST), map);
+                .setMethod(mode), map);
     }
 
     public void handleResponse(JSONObject json) {
@@ -237,10 +259,25 @@ public class AddLocationActivity extends AppCompatActivity implements OnMapReady
             }
         });
 
-        both.setStatus(true);
-        hasMale = true;
-        hasFemale = true;
-        selected = WashroomType.BOTH;
+        if (updateMode) {
+            hasMale = locationItem.male;
+            hasFemale = locationItem.female;
+            if (hasMale && hasFemale) {
+                both.setStatus(true);
+                selected = WashroomType.BOTH;
+            } else if (hasMale) {
+                male.setStatus(true);
+                selected = WashroomType.MALE;
+            } else if (hasFemale) {
+                female.setStatus(true);
+                selected = WashroomType.FEMALE;
+            }
+        } else {
+            both.setStatus(true);
+            hasMale = true;
+            hasFemale = true;
+            selected = WashroomType.BOTH;
+        }
     }
 
     @Override
@@ -250,7 +287,9 @@ public class AddLocationActivity extends AppCompatActivity implements OnMapReady
             @Override
             public void onMapClick(LatLng latLng) {
                 geoDecoder = getDetails(latLng);
-                location.setText(geoDecoder);
+                if (!updateMode) {
+                    location.setText(geoDecoder);
+                }
                 locationName.setText(geoDecoder);
                 addMarker(latLng, false);
             }
@@ -259,7 +298,11 @@ public class AddLocationActivity extends AppCompatActivity implements OnMapReady
     }
 
     public void zoomToUserLocation(GoogleMap map) {
-
+        if (updateMode) {
+            LatLng latLng = new LatLng(locationItem.latitude, locationItem.longitude);
+            addMarker(latLng, true);
+            return;
+        }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             map.setMyLocationEnabled(true);

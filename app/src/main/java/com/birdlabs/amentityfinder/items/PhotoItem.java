@@ -26,4 +26,11 @@ public class PhotoItem {
         photo = json.getString("photo");
         flags = json.getInt("flags");
     }
+
+    public String getDisplayName() {
+        if (anonymous) {
+            return "Anonymous";
+        }
+        return author.name;
+    }
 }

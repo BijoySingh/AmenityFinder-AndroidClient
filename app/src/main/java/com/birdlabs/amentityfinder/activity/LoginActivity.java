@@ -23,7 +23,6 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -129,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void startDialog() {
         ProgressDialog.show(context, "Signing you in",
-                "Please wait, while we get thing ready.", true).setCancelable(true);
+                "Please wait, while we get things ready.", true).setCancelable(true);
     }
 
     public void openMapActivity() {
@@ -160,7 +159,9 @@ public class LoginActivity extends AppCompatActivity {
         try {
             if (json.getBoolean("success")) {
                 String authToken = json.getString("token");
+                Integer userId = json.getInt("uid");
                 preferences.save(Preferences.Keys.AUTH_TOKEN, authToken);
+                preferences.save(Preferences.Keys.USER_ID, userId);
                 preferences.save(Preferences.Keys.SERVER_LOGIN, true);
                 openMapActivity();
             } else {
@@ -171,5 +172,4 @@ public class LoginActivity extends AppCompatActivity {
             Log.e(LoginActivity.class.getSimpleName(), exception.getMessage(), exception);
         }
     }
-
 }

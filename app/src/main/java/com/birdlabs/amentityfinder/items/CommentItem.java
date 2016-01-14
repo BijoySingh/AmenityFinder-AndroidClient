@@ -71,4 +71,11 @@ public class CommentItem {
         }
         return "";
     }
+
+    public String getDisplayName() {
+        if (anonymous) {
+            return "Anonymous";
+        }
+        return author.name;
+    }
 }

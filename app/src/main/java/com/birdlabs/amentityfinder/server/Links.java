@@ -66,4 +66,8 @@ public class Links {
         return getHomeUrl() + "api/location/" + location + "/flag_post/";
     }
 
+    public static String getPicture(Integer picture) {
+        return getHomeUrl() + "api/picture/" + picture + "/";
+    }
+
 }

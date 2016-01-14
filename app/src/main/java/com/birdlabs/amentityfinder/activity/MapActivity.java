@@ -56,11 +56,13 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     FloatingActionButton addLocation;
     FloatingActionButton closestLocation;
     List<LocationItem> locations;
+    Map<Integer, Marker> markers = new HashMap<>();
     LocationItem closestItem;
     float closestDistance;
 
     GoogleMap map;
     Set<Integer> existingLocations;
+
     LatLng currentLocation;
 
     @Override
@@ -181,7 +183,14 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
                     locations.add(item);
                     existingLocations.add(item.id);
                 } else {
+                    LocationItem existing = locations.get(position);
                     locations.set(position, item);
+
+                    if (!existing.longitude.equals(item.longitude) ||
+                            !existing.latitude.equals(item.latitude)) {
+                        markers.get(item.id).remove();
+                        markers.remove(item.id);
+                    }
                 }
             }
         } catch (JSONException json) {
@@ -193,11 +202,18 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
 
     public void createMapLabels() {
         if (map != null) {
+            Log.d("CREATE_MAP_LABELS", "Called " + locations.size());
             for (LocationItem item : locations) {
-                LatLng latLng = new LatLng(item.latitude, item.longitude);
-                map.addMarker(new MarkerOptions().position(latLng).title(item.name)
-                        .snippet(item.getSnippet()));
+                if (markers.containsKey(item.id)) {
+                    continue;
+                }
 
+                Log.d("CREATE_MAP_LABELS", "Adding " + item.name + " " + item.name);
+
+                LatLng latLng = new LatLng(item.latitude, item.longitude);
+                Marker marker = map.addMarker(new MarkerOptions().position(latLng).title(item.name)
+                        .snippet(item.getSnippet()));
+                markers.put(item.id, marker);
             }
         }
     }
@@ -232,20 +248,24 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
         map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
-                LatLngBounds bounds = map.getProjection().getVisibleRegion().latLngBounds;
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("lat_min", bounds.southwest.latitude);
-                map.put("long_min", bounds.southwest.longitude);
-                map.put("lat_max", bounds.northeast.latitude);
-                map.put("long_max", bounds.northeast.longitude);
-
-                Access access = new Access(context);
-                access.send(new AccessInfo(Links.getLocations(), Filenames.getLocations(),
-                        AccessInfo.AccessIds.LOCATION_GET, false).setActivity(activity), map);
+                requestLocationByBoundingBox();
             }
         });
 
         refreshMap();
+    }
+
+    public void requestLocationByBoundingBox() {
+        LatLngBounds bounds = map.getProjection().getVisibleRegion().latLngBounds;
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("lat_min", bounds.southwest.latitude);
+        map.put("long_min", bounds.southwest.longitude);
+        map.put("lat_max", bounds.northeast.latitude);
+        map.put("long_max", bounds.northeast.longitude);
+
+        Access access = new Access(context);
+        access.send(new AccessInfo(Links.getLocations(), Filenames.getLocations(),
+                AccessInfo.AccessIds.LOCATION_GET, false).setActivity(activity), map);
     }
 
     public void zoomToUserLocation(GoogleMap map) {
@@ -290,6 +310,9 @@ public class MapActivity extends ActionBarActivity implements OnMapReadyCallback
     @Override
     protected void onResume() {
         super.onResume();
+        if (map != null) {
+            requestLocationByBoundingBox();
+        }
         AppEventsLogger.activateApp(this);
     }
 

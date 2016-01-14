@@ -18,6 +18,7 @@ import com.birdlabs.amentityfinder.adapter.PhotosAdapter;
 import com.birdlabs.amentityfinder.items.CommentItem;
 import com.birdlabs.amentityfinder.items.LocationItem;
 import com.birdlabs.amentityfinder.items.PhotoItem;
+import com.birdlabs.basicproject.Functions;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,6 +72,27 @@ public class GalleryActivity extends LocationViewActivityBase {
         gender.setImageResource(locationItem.getGenderDrawable());
         score.setText(locationItem.rating.toString());
         ratingBar.setRating(locationItem.rating.floatValue());
+    }
+
+    public void handleDelete(JSONObject json) {
+        try {
+            Integer deletedImage = json.getInt("id");
+            Integer position = 0;
+            for (PhotoItem item : photos) {
+                if (item.id.equals(deletedImage)) {
+                    break;
+                }
+                position++;
+            }
+
+            if (position < photos.size()) {
+                photos.remove(position.intValue());
+                adapter.notifyItemRemoved(position);
+            }
+
+        } catch (JSONException exception) {
+            Functions.makeToast(context, "Something went wrong!");
+        }
     }
 
     @Override

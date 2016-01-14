@@ -8,6 +8,7 @@ import com.birdlabs.amentityfinder.activity.AddLocationActivity;
 import com.birdlabs.amentityfinder.activity.AddPhotoActivity;
 import com.birdlabs.amentityfinder.activity.AddPostActivity;
 import com.birdlabs.amentityfinder.activity.CommentsActivity;
+import com.birdlabs.amentityfinder.activity.GalleryActivity;
 import com.birdlabs.amentityfinder.activity.LocationActivity;
 import com.birdlabs.amentityfinder.activity.LocationViewActivityBase;
 import com.birdlabs.amentityfinder.activity.LoginActivity;
@@ -38,6 +39,7 @@ public class Access extends AccessManager {
         Preferences preferences = new Preferences(context);
         Map<String, String> map = new HashMap<>();
         map.put("token-auth", preferences.load(Preferences.Keys.AUTH_TOKEN));
+        Log.d("Access", map.toString());
         return map;
     }
 
@@ -78,6 +80,8 @@ public class Access extends AccessManager {
                 ((CommentsActivity) access.activity).updateItem(jsonObject);
             } else if (access.type.equals(AccessInfo.AccessIds.PHOTO_POST)) {
                 ((AddPhotoActivity) access.activity).handleResponse();
+            } else if (access.type.equals(AccessInfo.AccessIds.PHOTO_DELETE)) {
+                ((GalleryActivity) access.activity).handleDelete(jsonObject);
             }
         }
     }

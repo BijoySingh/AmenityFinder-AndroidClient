@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.android.volley.Request;
 import com.birdlabs.amentityfinder.items.CommentItem;
 import com.birdlabs.amentityfinder.items.LocationItem;
 import com.birdlabs.amentityfinder.items.PhotoItem;
@@ -36,6 +37,7 @@ public class LocationViewActivityBase extends AppCompatActivity {
         comments = new ArrayList<>();
         try {
             String response = FileManager.read(context, Filenames.getLocationPosts(locationItem.id));
+            Log.d("Response Reviews", response);
             JSONObject page = new JSONObject(response);
             JSONArray array = page.getJSONArray("results");
             for (int position = 0; position < array.length(); position++) {
@@ -50,6 +52,7 @@ public class LocationViewActivityBase extends AppCompatActivity {
         photos = new ArrayList<>();
         try {
             String response = FileManager.read(context, Filenames.getLocationPhotos(locationItem.id));
+            Log.d("Response Gallery", response);
             JSONObject page = new JSONObject(response);
             JSONArray array = page.getJSONArray("results");
             for (int position = 0; position < array.length(); position++) {
@@ -78,12 +81,12 @@ public class LocationViewActivityBase extends AppCompatActivity {
         access.get(new AccessInfo(Links.getLocationPosts(locationItem.id),
                 Filenames.getLocationPosts(locationItem.id),
                 AccessInfo.AccessIds.LOCATION_GET_POSTS,
-                false).setActivity(this));
+                true).setActivity(this));
 
         access.get(new AccessInfo(Links.getLocationPhotos(locationItem.id),
                 Filenames.getLocationPhotos(locationItem.id),
                 AccessInfo.AccessIds.PHOTO_GET,
-                false).setActivity(this));
+                true).setActivity(this));
     }
 
     @Override
