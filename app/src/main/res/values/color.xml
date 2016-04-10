@@ -11,9 +11,9 @@
 
     <color name="current_location">#757575</color>
 
-    <color name="primary_dark_color">#1976D2</color>
-    <color name="primary_color">#1E88E5</color>
-    <color name="secondary_color">#64B5F6</color>
+    <color name="primary_dark_color">#1f1f7a</color>
+    <color name="primary_color">#2a2aa2</color>
+    <color name="secondary_color">#3434cb</color>
 
     <color name="bookmark_tagged">#77000000</color>
     <color name="upvotes">#88000000</color>
@@ -23,4 +23,11 @@
     <color name="dark_accent">#C51162</color>
 
     <color name="separator">#0F000000</color>
+
+    <color name="level_max">#388E3C</color>
+    <color name="level_excellent">#689F38</color>
+    <color name="level_very_good">#AFB42B</color>
+    <color name="level_good">#FBC02D</color>
+    <color name="level_rookie">#FFA000</color>
+    <color name="level_banned">#D32F2F</color>
 </resources>

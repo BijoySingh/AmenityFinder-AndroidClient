@@ -4,14 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <!--<ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/map_icon"/>
-    -->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,6 +14,74 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/primary_color"
+            android:gravity="center"
+            android:orientation="horizontal"
+            >
+
+            <LinearLayout
+                android:id="@+id/closest_location"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_directions_white_36dp"
+                    android:tint="@color/white_hint"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/nearest"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white_hint"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="32dp"
+                android:alpha="0.1"
+                android:background="@color/white_hint"/>
+
+            <LinearLayout
+                android:id="@+id/filter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_filter_list_white_36dp"
+                    android:tint="@color/white_hint"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:text="@string/filter"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white_hint"/>
+
+            </LinearLayout>
+        </LinearLayout>
 
         <fragment
             android:id="@+id/map"
@@ -34,37 +94,15 @@
             tools:context=".MapsActivity"/>
     </LinearLayout>
 
-
-    <LinearLayout
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="8dp"
-        android:gravity="center"
-        android:orientation="vertical">
-
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/closest_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_directions_run_white_36dp"
-            app:borderWidth="0dp"
-            app:fabSize="mini"
-            app:elevation="0dp"
-            />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/add_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_add_white_36dp"
-            app:borderWidth="0dp"
-            app:fabSize="normal"
-            app:elevation="0dp"
-            />
-
-    </LinearLayout>
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_add_white_36dp"
+        app:borderWidth="0dp"
+        app:elevation="4dp"
+        app:fabSize="normal"
+        />
 </FrameLayout>

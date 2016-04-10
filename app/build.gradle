@@ -1,16 +1,18 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "com.birdlabs.amentityfinder"
-        minSdkVersion 16
+        applicationId "com.birdlabs.amenityfinder"
+        minSdkVersion 21
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -19,21 +21,17 @@ android {
     }
 }
 
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-}
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.2.0'
+    compile 'com.android.support:design:23.2.0'
     compile 'com.mcxiaoke.volley:library:1.0.17'
-    compile 'com.android.support:cardview-v7:23.1.1'
+    compile 'com.android.support:cardview-v7:23.2.0'
     compile 'net.danlew:android.joda:2.8.1'
-    compile 'com.google.android.gms:play-services-maps:8.4.0'
+    compile 'com.google.android.gms:play-services-maps:8.3.0'
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
-    compile(name:'basicproject', ext:'aar')
+    compile 'com.github.bijoysingh:android-basics:0.8.20'
+    compile 'com.google.android.gms:play-services-auth:8.3.0'
+    compile 'de.hdodenhof:circleimageview:2.0.0'
 }

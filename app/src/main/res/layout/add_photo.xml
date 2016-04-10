@@ -15,7 +15,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/actionbar_gradient"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingTop="28dp">
 
             <ImageView
                 android:id="@+id/icon"

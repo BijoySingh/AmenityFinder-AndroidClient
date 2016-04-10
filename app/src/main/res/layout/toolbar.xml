@@ -4,21 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/actionbar_gradient"
+    android:paddingTop="28dp"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
     <ImageView
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:alpha="1"
-        android:padding="4dp"
-        android:src="@drawable/commode_icon"/>
-
-    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="48dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:adjustViewBounds="true"
         android:paddingBottom="12dp"
         android:paddingLeft="4dp"
@@ -35,10 +29,21 @@
         android:id="@+id/logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
         android:gravity="end"
         android:padding="16dp"
-        android:text="LOGOUT"
+        android:text="@string/logout"
         android:textAllCaps="true"
-        android:background="?attr/selectableItemBackground"
         android:textColor="@color/white"/>
+
+    <ImageView
+        android:id="@+id/account"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:alpha="0.8"
+        android:padding="6dp"
+        android:src="@drawable/ic_account_circle_white_36dp"
+        android:visibility="gone"/>
 </LinearLayout>
